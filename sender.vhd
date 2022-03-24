@@ -14,7 +14,7 @@ architecture fsm of sender is
     signal curr : state := idle;
 
     type str is array (0 to 4) of std_logic_vector(7 downto 0);
-    signal NETID : str := (x"48", x"65", x"6C", x"6C", x"6F");
+    signal NETID : str := (x"70", x"61", x"73", x"33", x"34", x"31");
     
     signal i : std_logic_vector(2 downto 0) := (others => '0');
     
