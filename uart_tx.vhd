@@ -13,14 +13,12 @@ architecture fsm of uart_tx is
     type state is (idle, start, data);
     signal curr : state := idle;
 
-    -- shift register to read data in
-    signal d : std_logic_vector (7 downto 0) := (others => '0');
-
+    signal d : std_logic_vector(7 downto 0) := (others => '0');
+    
     -- counter for data state
     signal count : std_logic_vector(2 downto 0) := (others => '0');
 
 begin
-
 
     -- FSM process (single process implementation)
     process(clk) begin
@@ -28,9 +26,10 @@ begin
 
         -- resets the state machine and its outputs
         if rst = '1' then
-
+            ready <= '1';
             curr <= idle;
             d <= (others => '0');
+            tx <= '0';
             count <= (others => '0');
 
         -- usual operation
@@ -39,20 +38,21 @@ begin
 
                 when idle =>
                     ready <= '1';
+                    d <= char;
                     if send = '1' then
+                        ready <= '0';
                         curr <= start;
                     end if;
 
                 when start =>
-                    d <= char;
+                    tx <= d(7);
                     count <= (others => '0');
-                    ready <= '1';
                     curr <= data;
 
                 when data =>
                     if unsigned(count) < 7 then
+                        tx <= d(7);
                         d <= '0' & d(7 downto 1);
-                        tx <= d(0);
                         count <= std_logic_vector(unsigned(count) + 1);
                     else
                         ready <= '1';
