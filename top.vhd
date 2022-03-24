@@ -4,7 +4,7 @@ use IEEE.NUMERIC_STD.ALL;
 
 entity top is
     Port ( clk,TXD : in  std_logic;
-               btn : in  std_logic_vector;
+               btn : in  std_logic_vector(1 downto 0);
                RXD : out std_logic);
 end top;
 
@@ -30,7 +30,7 @@ architecture Structural of top is
      dbnc : out std_logic
     );
     end component;
-    component clk_div port
+    component clock_div port
     (
      clk : in  std_logic;
      div : out std_logic := '0'
@@ -54,7 +54,7 @@ begin
         btn => btn(1),
         dbnc => dbnc_res(1));
       
-    u3: clk_div port map(
+    u3: clock_div port map(
         clk => clk,
         div => div_res);
         

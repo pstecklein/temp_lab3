@@ -38,7 +38,7 @@ begin
                     if rdy = '1' and btn = '1' then
                         if unsigned(i) < 6 then
                             send <= '1';
-                            char <= NETID(integer(i));
+                            char <= NETID(To_integer(unsigned(i)));
                             i <= std_logic_vector(unsigned(i) + 1);
                             curr <= busyA;
                         elsif unsigned(i) < 6 then
