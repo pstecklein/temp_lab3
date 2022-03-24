@@ -41,7 +41,7 @@ begin
                             char <= NETID(To_integer(unsigned(i)));
                             i <= std_logic_vector(unsigned(i) + 1);
                             curr <= busyA;
-                        elsif unsigned(i) < 6 then
+                        elsif unsigned(i) = 6 then
                             i <= (others => '0');
                         end if;
                     end if;
