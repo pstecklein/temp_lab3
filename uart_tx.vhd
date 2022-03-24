@@ -16,7 +16,7 @@ architecture fsm of uart_tx is
     signal d : std_logic_vector(7 downto 0) := (others => '0');
     
     -- counter for data state
-    signal count : std_logic_vector(2 downto 0) := (others => '0');
+    signal count : std_logic_vector(3 downto 0) := (others => '0');
 
 begin
 
@@ -27,7 +27,7 @@ begin
         -- resets the state machine and its outputs
         if rst = '1' then
             curr <= idle;
-            ready <= '0';
+            ready <= '1';
             d <= (others => '0');
             tx <= '0';
             count <= (others => '0');
@@ -39,25 +39,22 @@ begin
                 when idle =>
                     ready <= '1';
                     if send = '1' then
-                        ready <= '0';
                         d <= char;
                         curr <= start;
                     end if;
 
                 when start =>
                     ready <= '0';
-                    tx <= d(7);
+                    tx <= '0';
                     count <= (others => '0');
                     curr <= data;
 
                 when data =>
-                    if unsigned(count) < 7 then
-                        ready <= '0';
-                        tx <= d(7);
-                        d <= d(6 downto 0) & '0';
+                    if unsigned(count) < 8 then
+                        tx <= d(0);
+                        d <= '0' & d(7 downto 1);
                         count <= std_logic_vector(unsigned(count) + 1);
                     else
-                        ready <= '1';
                         curr <= idle;
                     end if;
 
