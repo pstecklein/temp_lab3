@@ -26,8 +26,8 @@ begin
 
         -- resets the state machine and its outputs
         if rst = '1' then
-            ready <= '1';
             curr <= idle;
+            ready <= '0';
             d <= (others => '0');
             tx <= '0';
             count <= (others => '0');
@@ -38,21 +38,23 @@ begin
 
                 when idle =>
                     ready <= '1';
-                    d <= char;
                     if send = '1' then
                         ready <= '0';
+                        d <= char;
                         curr <= start;
                     end if;
 
                 when start =>
+                    ready <= '0';
                     tx <= d(7);
                     count <= (others => '0');
                     curr <= data;
 
                 when data =>
                     if unsigned(count) < 7 then
+                        ready <= '0';
                         tx <= d(7);
-                        d <= '0' & d(7 downto 1);
+                        d <= d(6 downto 0) & '0';
                         count <= std_logic_vector(unsigned(count) + 1);
                     else
                         ready <= '1';
