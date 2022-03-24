@@ -8,15 +8,15 @@ Port ( CLK : in  std_logic;
 end clock_div;
 
 architecture Behavioral of clock_div is
-signal counter: std_logic_vector(13 downto 0) := (others => '0');
+signal counter: std_logic_vector(10 downto 0) := (others => '0');
 begin
     process(CLK)
     begin
         if rising_edge(CLK) then
             counter <= std_logic_vector(unsigned(counter)+1);
-            if (counter="11100001000000") then
+            if (counter="10000111101") then
                 div <= '1';
-                counter <= "00000000000000";
+                counter <= "00000000000";
             else
                 div <= '0';
             end if;
