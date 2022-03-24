@@ -13,7 +13,7 @@ architecture fsm of sender is
     type state is (idle, busyA, busyB, busyC);
     signal curr : state := idle;
 
-    type str is array (0 to 4) of std_logic_vector(7 downto 0);
+    type str is array (0 to 5) of std_logic_vector(7 downto 0);
     signal NETID : str := (x"70", x"61", x"73", x"33", x"34", x"31");
     
     signal i : std_logic_vector(2 downto 0) := (others => '0');
