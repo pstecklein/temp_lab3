@@ -29,7 +29,7 @@ begin
             curr <= idle;
             ready <= '1';
             d <= (others => '0');
-            tx <= '0';
+            tx <= '1';
             count <= (others => '0');
 
         -- usual operation
@@ -38,6 +38,7 @@ begin
 
                 when idle =>
                     ready <= '1';
+                    tx <= '1';
                     if send = '1' then
                         d <= char;
                         curr <= start;
@@ -54,7 +55,8 @@ begin
                         tx <= d(0);
                         d <= '0' & d(7 downto 1);
                         count <= std_logic_vector(unsigned(count) + 1);
-                    else
+                    elsif unsigned(count) = 8 then
+                        tx <= '1';
                         curr <= idle;
                     end if;
 

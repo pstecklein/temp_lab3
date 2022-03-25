@@ -3,9 +3,9 @@ use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
 entity top is
-    Port ( clk,TXD : in  std_logic;
-               btn : in  std_logic_vector(1 downto 0);
-               RXD : out std_logic);
+    Port (      clk,TXD : in  std_logic;
+                    btn : in  std_logic_vector(1 downto 0);
+           CTS, RTS,RXD : out std_logic);
 end top;
 
 architecture Structural of top is
@@ -76,5 +76,8 @@ begin
         charSend => char_signal,
         ready => ready_signal,
         tx => RXD);
+        
+    CTS <= '0';
+    RTS <= '0';
 
 end Structural;
